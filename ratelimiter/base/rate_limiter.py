@@ -1,4 +1,7 @@
+from functools import wraps
 from uuid import uuid4
+
+from ..exceptions import RateLimited
 
 
 class RateLimiter(object):
@@ -28,7 +31,11 @@ class RateLimiter(object):
     def remaining_requests(self):
         raise NotImplementedError
 
-    @property
-    def limit(self):
-        """Total number of requests allowed"""
-        return self._limit
+    def limit(self, func):
+        """Decorator to check the rate limit."""
+        @wraps(func)
+        def decorated(*args, **kwargs):
+            if self.is_allowed():
+                return func(*args, **kwargs)
+            raise RateLimited
+        return decorated
