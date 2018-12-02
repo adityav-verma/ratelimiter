@@ -10,8 +10,8 @@ class RateLimiter(object):
         :param window: window in secs in which :limit number requests allowed
         :type window: int
         """
-        self.connection = connection
-        self.key = uuid4()
+        self._connection = connection
+        self._key = str(uuid4())
         self._limit = limit
         self._window = window
 
