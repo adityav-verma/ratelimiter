@@ -1,6 +1,3 @@
-from setuptools import setup
-
-
 #!/usr/bin/env python
 #
 # Python installation script
